@@ -1,0 +1,8 @@
+.row {
+	text-align: justify;
+}
+.row:after {
+	display: inline-block;
+	content: "";
+	width: 100%;
+}

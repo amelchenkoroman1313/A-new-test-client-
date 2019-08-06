@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible"  content="IE=edge">
+    <meta http-equiv="Content-Type"     content="text/html; charset=iso-8859-1">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/overcast/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/all.css"/>
+
+    <script type="text/javascript" src="js/engine.js"></script>
+    <script type="text/javascript" src="js/engine.pvp.js"></script>
+    <script type="text/javascript" src="js/engine.pvp.backgammon.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+</head>
+<body>
+    <common>
+        <script>
+            var start       = async function()
+            {
+                try 
+                {
+                    const   res     = await create_game()
+                    switch( res.code)
+                    {
+                        case 1  : 
+
+                            for(var i = 1; i <= 3; i++)
+                            {
+                                var client = new Client(i, res.data.sessionId, 1940000, 512 + i)
+                                    client.check_status();
+                            }
+
+                        break;
+
+                        default : 
+                            console.log(res.message);
+                        break;
+                    }
+                }
+                catch(err) 
+                {
+                    console.log(err);
+                }
+            }
+
+            var create_game = function()
+            {
+                var data = 
+                {
+                    type    : "game_create", 
+                    gameId  : 1940000,
+
+                    betInfo:
+                    {
+                        bet       : 100,
+                        currency  : 10000, 
+                        limits    : 
+                        { 
+                            rake    : { min:25, max:25}, 
+                            total   : { min:10, max:100},
+                        }
+                    }, 
+                    parameters:
+                    {
+                        time_turn             : "60", 
+                        time_personal         : "300",
+                        game_rule_dump_truck  : "none", 
+                        game_rule_bolt        : "always", 
+                    }
+                };
+
+                return $.ajax({
+                    url         : url_api,
+                    dataType    : 'json',
+                    method      : 'POST',
+                    processData : false,
+                    data        : JSON.stringify(data),
+                });
+            }
+
+            start()
+
+        </script>
+    </common>
+    <!--
+    <div style="width: 100%; float: left;">
+        <div id = c1>
+                <p></p><control></control>
+                <p></p><places></places>
+                <p></p><actions></actions>
+                <p></p><game></game>
+                <p></p><textarea id = i1 rows="30" cols="50"></textarea>
+                <p></p><textarea id = o1 rows="5" cols="50"></textarea>
+                <p></p><button id = s1>Send</button>
+        </div>
+        <div id = c2>
+                <p></p><control></control>
+                <p></p><places></places>
+                <p></p><actions></actions>
+                <p></p><game></game>
+                <p></p><textarea id = i2 rows="30" cols="50"></textarea>
+                <p></p><textarea id = o2 rows="5" cols="50"></textarea>
+                <p></p><button id = s2>Send</button>
+        </div>
+        <div id = c3>
+                <p></p><control></control>
+                <p></p><places></places>
+                <p></p><actions></actions>
+                <p></p><game></game>
+                <p></p><textarea id = i3 rows="30" cols="50"></textarea>
+                <p></p><textarea id = o3 rows="5" cols="50"></textarea>
+                <p></p><button id = s3>Send</button>
+        </div>
+    </div>
+    -->
+    
+    <table width = "100%">
+        <td id = c1>
+            <p></p><control></control>
+            <p></p><places></places>
+            <p></p><actions></actions>
+            <p></p><game></game>
+            <p></p><textarea id = i1 rows="30" cols="50"></textarea>
+            <p></p><textarea id = o1 rows="5" cols="50"></textarea>
+            <p></p><button id = s1>Send</button>
+        </td>
+        <td id = c2>
+            <p></p><control></control>
+            <p></p><places></places>
+            <p></p><actions></actions>
+            <p></p><game></game>
+            <p></p><textarea id = i2 rows="30" cols="50"></textarea>
+            <p></p><textarea id = o2 rows="5" cols="50"></textarea>
+            <p></p><button id = s2>Send</button>
+        </td>
+        <td id = c3>
+            <p></p><control></control>
+            <p></p><places></places>
+            <p></p><actions></actions>
+            <p></p><game></game>
+            <p></p><textarea id = i3 rows="30" cols="50"></textarea>
+            <p></p><textarea id = o3 rows="5" cols="50"></textarea>
+            <p></p><button id = s3>Send</button>
+        </td>
+    </table>
+</body>
+</html>
